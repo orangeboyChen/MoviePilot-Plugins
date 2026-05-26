@@ -142,9 +142,7 @@ class Mini4k(_PluginBase):
             "timeout": self._timeout,
             "cookie": self._cookie,
             "ua": self._ua or self.DEFAULT_UA,
-            "search": {
-                "paths": [{"path": "search?text={keyword}", "method": "get", "type": "movie"}]
-            },
+            "search": {},
             "torrents": {
                 "list": {"selector": "ul.metadata-list > li.item"},
                 "fields": {},
@@ -243,7 +241,10 @@ class Mini4k(_PluginBase):
         cat: Optional[str] = None,
         page: Optional[int] = 0,
     ) -> List[TorrentInfo]:
-        return []
+        if not keyword:
+            logger.debug(f"【{self.plugin_name}】未提供关键词，跳过首页资源刷新")
+            return []
+        return self.search_torrents(site=site, keyword=keyword, page=page)
 
     async def async_refresh_torrents(
         self,
