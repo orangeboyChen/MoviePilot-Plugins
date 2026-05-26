@@ -17,12 +17,14 @@ Mini4k V2 插件用于把 `https://mini4k.io` 接入 MoviePilot 搜索链路。
 1. 安装并启用插件。
 2. 填写 Mini4k 用户名、密码。
 3. 勾选“立即运行一次”并保存配置。
-4. 在 MoviePilot 站点管理中启用 Mini4k。
+4. 在 MoviePilot 站点管理中添加并启用 `http://mini4k_indexer.orangeboy/`。
 5. 正常使用 MoviePilot 搜索，Mini4k 结果会以种子资源形式返回。
 
 ## 说明
 
 Mini4k 的搜索页不是种子列表，而是电影列表；真正的种子资源在电影详情页。插件不会把电影详情页伪装成下载链接，而是在搜索时进入详情页解析资源表，最终只返回真实 `.torrent` 或 magnet。
+
+站点管理里的 Domain 使用虚拟地址 `http://mini4k_indexer.orangeboy/`，和 Prowlarr 插件的 `http://prowlarr_indexer.{num}/` 类似；真实请求仍然访问配置里的 `https://mini4k.io`。
 
 ## 智能体工具
 

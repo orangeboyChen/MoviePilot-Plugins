@@ -28,6 +28,7 @@ class Mini4k(_PluginBase):
     auth_level = 2
 
     INDEXER_ID = "Mini4k"
+    INDEXER_DOMAIN = "mini4k_indexer.orangeboy"
     DATA_COOKIE = "cookies"
     DATA_STATUS = "status"
     DEFAULT_UA = (
@@ -134,7 +135,7 @@ class Mini4k(_PluginBase):
             "id": self.INDEXER_ID,
             "name": self.plugin_name,
             "url": f"{self._base_url}/",
-            "domain": f"{self._base_url}/",
+            "domain": self.INDEXER_DOMAIN,
             "encoding": "UTF-8",
             "public": False,
             "proxy": self._use_proxy,
@@ -160,8 +161,16 @@ class Mini4k(_PluginBase):
     def _is_our_site(self, site: Dict[str, Any]) -> bool:
         if not isinstance(site, dict):
             return False
-        domain = str(site.get("domain") or "").rstrip("/")
-        return site.get("id") == self.INDEXER_ID or site.get("name") == self.plugin_name or domain == self._base_url
+        domain = self._clean_domain(site.get("domain"))
+        return (
+            site.get("id") == self.INDEXER_ID
+            or site.get("name") == self.plugin_name
+            or domain == self.INDEXER_DOMAIN
+        )
+
+    @staticmethod
+    def _clean_domain(domain: Any) -> str:
+        return str(domain or "").replace("http://", "").replace("https://", "").rstrip("/")
 
     def get_state(self) -> bool:
         return self._enabled
@@ -310,5 +319,6 @@ class Mini4k(_PluginBase):
             last_login_at=self._last_login_at,
             last_error=self._last_error,
             base_url=self._base_url,
+            indexer_domain=self.INDEXER_DOMAIN,
             use_proxy=self._use_proxy,
         )

@@ -75,6 +75,7 @@ def build_page(
     last_login_at: str,
     last_error: str,
     base_url: str,
+    indexer_domain: str,
     use_proxy: bool,
 ) -> List[dict]:
     status = "运行中" if enabled else "已停用"
@@ -104,6 +105,7 @@ def build_page(
                         "content": [
                             {"component": "th", "text": "名称"},
                             {"component": "th", "text": "Domain"},
+                            {"component": "th", "text": "真实地址"},
                             {"component": "th", "text": "代理"},
                         ],
                     }],
@@ -114,6 +116,7 @@ def build_page(
                         "component": "tr",
                         "content": [
                             {"component": "td", "text": "Mini4k"},
+                            {"component": "td", "text": f"http://{indexer_domain}/"},
                             {"component": "td", "text": f"{base_url}/"},
                             {"component": "td", "text": "是" if use_proxy else "否"},
                         ],
